@@ -1,0 +1,9 @@
+# Personal / runtime artifacts — never commit these
+chrome-profile/
+chrome-profile-*/
+*.log
+*.png
+__pycache__/
+*.pyc
+.venv/
+venv/
