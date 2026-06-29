@@ -1,101 +1,70 @@
-# Solsticio PZ server — top-games.net auto-voter
+# Auto-vote for the Solsticio Project Zomboid server
 
-Automatically votes for the **Solsticio** Project Zomboid server on
-top-games.net every **2 hours 2 minutes**, under **your** username — so you
-never forget to vote and the server climbs the ranking.
+This little tool votes for our **Solsticio** server on top-games.net **for you,
+automatically, every 2 hours** — so you never forget, and the server climbs the
+ranking. You set your name once and forget about it.
 
-The vote page is protected by **Cloudflare Turnstile** (the "Verify you are
-human" box). Normal automation (Selenium/Playwright/Puppeteer) gets detected and
-blocked. This uses **[nodriver](https://github.com/ultrafunkamsterdam/nodriver)**
-— a stealth Chrome driver — so Turnstile's challenge passes automatically.
-
-> ⚠️ For personal use. Voting is one per ~2 hours per person (enforced by IP +
-> cookie), exactly like voting by hand — this just does it for you on a timer.
+The vote page has a "Verify you are human" check (Cloudflare Turnstile) that
+normally blocks robots. This tool gets past it the honest way — by using a real
+Chrome window — so your vote counts just like clicking by hand.
 
 ---
 
-## Quick start (Windows)
+## How to set it up (about 5 minutes, no coding)
 
-**1. Install Python** (3.10+). During install, tick **“Add Python to PATH”.**
-Get it from <https://www.python.org/downloads/>.
+### Step 1 — Install Python (one time)
+- Go to **https://www.python.org/downloads/** and click the big **Download**
+  button.
+- Run the installer. **VERY IMPORTANT:** on the first screen, tick the box
+  **“Add Python to PATH”**, then click **Install Now**.
 
-**2. Download this project.** Green **Code → Download ZIP**, then unzip it
-somewhere permanent (e.g. `C:\Tools\Solsticio-Voter`).
+### Step 2 — Download this tool
+- At the top of this page click the green **`< > Code`** button → **Download
+  ZIP**.
+- **Right-click the ZIP → Extract All.** Put the folder somewhere it can stay,
+  like your Documents.
 
-**3. Install the dependency.** Open the folder, type `cmd` in the address bar,
-press Enter, then run:
-```
-pip install -r requirements.txt
-python patch_nodriver.py
-```
-(`patch_nodriver.py` fixes a nodriver bug on Python 3.13/3.14 — harmless to run
-either way.)
+### Step 3 — Install it
+- Double-click **`1-INSTALL.bat`**.
+- A black window opens, installs everything, and says *Done*. Close it.
+- (If Windows shows a blue "protected your PC" box, click **More info → Run
+  anyway**.)
 
-**4. Set your username.** Open **`vote.py`** in Notepad and change this line:
-```python
-USERNAME = "YOUR_USERNAME_HERE"
-```
-to your top-games username, e.g. `USERNAME = "michaelizer"`. Save.
+### Step 4 — Put your name
+- Open **`username.txt`** (double-click → opens in Notepad).
+- Delete `YOUR_USERNAME_HERE`, type **your top-games username**, and **Save**
+  (Ctrl+S).
 
-**5. Test it once:**
-```
-python vote.py
-```
-A Chrome window opens for a few seconds. Check `vote.log` — you want to see
-`username field at submit = '...'` then `Vote CONFIRMED`. (If you already voted
-in the last 2h it will say `On cooldown` — that's fine.)
+### Step 5 — Test it once
+- Double-click **`2-TEST-vote-now.bat`**.
+- A Chrome window pops up for a few seconds and votes. When it says
+  **“Vote CONFIRMED”**, it works! 🎉
+  *(If it says “On cooldown”, you already voted in the last 2 hours — that’s
+  normal, try later.)*
 
-**6. Schedule it forever.** Right-click **`setup_task.ps1`** → **Run with
-PowerShell**. Done — it now votes every 2h2m automatically.
+### Step 6 — Turn on automatic voting
+- Double-click **`3-SCHEDULE-every-2h.bat`**.
+- That’s it — it now votes every 2 hours by itself.
 
-To stop it later: right-click **`uninstall_task.ps1`** → Run with PowerShell.
+To turn it off later, double-click **`4-STOP-scheduling.bat`**.
 
 ---
 
-## Important for it to keep working
+## Keep these in mind
+- **Leave your PC on and logged in.** The vote needs a real window, so a small
+  Chrome window will flash for a few seconds every 2 hours — that’s normal, just
+  ignore it.
+- **Keep any VPN turned OFF.** Voting through a VPN makes the human-check fail.
 
-- **Stay logged in to Windows.** Turnstile only passes with a *visible* window,
-  so headless/minimized/off-screen all fail. A Chrome window will briefly appear
-  (~8–10 seconds) every 2 hours — that's normal.
-- **Keep your VPN OFF.** Cloudflare distrusts VPN/datacenter IPs and will throw
-  a puzzle. Vote on your normal home connection.
-- Leave the `chrome-profile` folder alone (it stores the bot's cookies).
+## Something went wrong?
+- **It says it can’t find Python** → you missed the “Add Python to PATH” box in
+  Step 1. Re-run the Python installer (Modify) and tick it.
+- **The test says exit code 2** → make sure the VPN is off, then try again a bit
+  later.
+- Everything that happens is written to **`vote.log`** — open it to see the
+  history.
 
-## New season? Just change one line
+---
 
-When the server starts a new season with a new vote link (same page, same
-everything), open `vote.py` and update:
-```python
-VOTE_URL = "https://es.top-games.net/project-zomboid/vote/<new-season-link>"
-```
-
-## Files
-
-| File | What it is |
-|---|---|
-| `vote.py` | The bot. Edit `USERNAME` (and `VOTE_URL` per season). |
-| `setup_task.ps1` | Creates the every-2h2m scheduled task. |
-| `uninstall_task.ps1` | Removes the scheduled task. |
-| `patch_nodriver.py` | One-time fix for nodriver on new Python versions. |
-| `requirements.txt` | Python dependency (`nodriver`). |
-| `vote.log` | Created on first run — log of every attempt. |
-
-## Exit codes (in `vote.log`)
-
-- `0` — vote submitted & confirmed
-- `1` — on cooldown (normal)
-- `2` — Turnstile not passed (try: VPN off, window visible, run again later)
-- `3` — not configured / unexpected error
-
-## Troubleshooting
-
-- **`nodriver` won't import** → run `python patch_nodriver.py`.
-- **Exit code 2 repeatedly** → make sure the VPN is off and you're not running
-  it dozens of times in a row (that lowers your IP's trust score). Wait and
-  retry on your home IP.
-- **No Chrome?** Install Google Chrome (Brave also works); the script
-  auto-detects it.
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+*For players of the server only. It simply does the same one-vote-every-2-hours
+you could do by hand, on a timer. MIT licensed.*

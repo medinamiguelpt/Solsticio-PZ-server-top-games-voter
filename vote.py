@@ -22,21 +22,33 @@ import sys
 import nodriver as uc
 from nodriver import cdp
 
-# ============================ EDIT THIS ============================
-# Put YOUR top-games username here (this is what shows next to the vote):
-USERNAME = "YOUR_USERNAME_HERE"
-
-# Vote page URL. Same for everyone. Only change this when a NEW SEASON
-# of the server gets a new vote link (same page, same procedure):
+# ===== MAINTAINER ONLY — the vote link (changes each new season) =====
+# Normal users do NOT touch this. To set your name, edit "username.txt".
 VOTE_URL = ("https://es.top-games.net/project-zomboid/vote/"
             "esp-x-latam-la-frontera-b42-pvx-solsticio-pz-server")
-# ==================================================================
+# =====================================================================
 
 BASE = pathlib.Path(__file__).resolve().parent
 PROFILE_DIR = BASE / "chrome-profile"   # dedicated profile (auto-created)
 LOG_FILE = BASE / "vote.log"
 SHOT_FILE = BASE / "last-run.png"
 TOKEN_WAIT_SECONDS = 35
+
+
+def _load_username() -> str:
+    """Read the voter name from username.txt (first real line)."""
+    try:
+        for line in (BASE / "username.txt").read_text(
+                encoding="utf-8").splitlines():
+            s = line.strip()
+            if s and not s.startswith("#"):
+                return s
+    except FileNotFoundError:
+        pass
+    return "YOUR_USERNAME_HERE"
+
+
+USERNAME = _load_username()
 
 
 def _find_chrome():
@@ -179,7 +191,7 @@ async def click_turnstile_checkbox(tab) -> None:
 
 async def run() -> int:
     if not USERNAME or USERNAME == "YOUR_USERNAME_HERE":
-        log("ERROR: open vote.py and set USERNAME to your top-games name first.")
+        log("ERROR: open 'username.txt' and put your top-games name in it first.")
         return 3
 
     PROFILE_DIR.mkdir(exist_ok=True)
