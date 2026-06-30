@@ -6,21 +6,21 @@ $ErrorActionPreference = "Stop"
 $dir = $PSScriptRoot
 $taskName = "Solsticio PZ Voter"
 
-# Find pythonw.exe (runs without a console window).
-$pyw = $null
-$cmd = Get-Command pythonw.exe -ErrorAction SilentlyContinue
-if ($cmd) { $pyw = $cmd.Source }
-if (-not $pyw) {
-    $py = Get-Command python.exe -ErrorAction SilentlyContinue
-    if ($py) {
-        $cand = Join-Path (Split-Path $py.Source) "pythonw.exe"
-        if (Test-Path $cand) { $pyw = $cand } else { $pyw = $py.Source }
-    }
+# Get the REAL interpreter path. Get-Command can return the WindowsApps shim
+# (...\WindowsApps\pythonw.exe), which does NOT run reliably under Task
+# Scheduler. sys.executable always points at the real install.
+$pyexe = $null
+try { $pyexe = (& python -c "import sys; print(sys.executable)" 2>$null) } catch {}
+if (-not $pyexe) {
+    $c = Get-Command python.exe -ErrorAction SilentlyContinue
+    if ($c) { $pyexe = $c.Source }
 }
-if (-not $pyw) {
+if (-not $pyexe) {
     if ($lang -eq "en") { throw "Python not found on PATH. Install Python first." }
     else { throw "No se encontro Python. Instala Python primero." }
 }
+$pyw = Join-Path (Split-Path $pyexe) "pythonw.exe"
+if (-not (Test-Path $pyw)) { $pyw = $pyexe }   # fall back to console python
 
 $action  = New-ScheduledTaskAction -Execute $pyw -Argument "vote.py" -WorkingDirectory $dir
 $trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(2)) `
