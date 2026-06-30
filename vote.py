@@ -116,16 +116,24 @@ async def set_username(tab, name: str) -> str:
         await f.send_keys(name)
     except Exception as e:
         log(f"  send_keys failed: {e}")
-    await tab.evaluate(
-        "(function(n){var e=document.querySelector('#playername');"
-        "if(e){e.value=n;"
-        "e.dispatchEvent(new Event('input',{bubbles:true}));"
-        "e.dispatchEvent(new Event('change',{bubbles:true}));}})('"
-        + name + "')"
-    )
-    val = await tab.evaluate(
-        "(document.querySelector('#playername')||{}).value || ''"
-    )
+    # json.dumps turns ANY name (apostrophes, quotes, backslashes, unicode)
+    # into a safe JS string literal, so the injection can't break the script.
+    try:
+        await tab.evaluate(
+            "(function(n){var e=document.querySelector('#playername');"
+            "if(e){e.value=n;"
+            "e.dispatchEvent(new Event('input',{bubbles:true}));"
+            "e.dispatchEvent(new Event('change',{bubbles:true}));}})("
+            + json.dumps(name) + ")"
+        )
+    except Exception as e:
+        log(f"  js-set failed: {e}")
+    try:
+        val = await tab.evaluate(
+            "(document.querySelector('#playername')||{}).value || ''"
+        )
+    except Exception:
+        val = name
     log(f"  username field at submit = {val!r}")
     return val
 
