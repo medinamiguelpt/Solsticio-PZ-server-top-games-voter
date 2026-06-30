@@ -72,6 +72,25 @@ Para desactivarlo más adelante, haz doble clic en **`4-STOP-scheduling.bat`**.
 
 ---
 
+## Cómo funciona el horario
+
+Top-Games permite un voto por persona aproximadamente **cada 2 horas**. La
+herramienta lo gestiona sola:
+
+- Al ejecutar **`3-SCHEDULE-every-2h.bat`**, **vota enseguida si puedes**. Si aún
+  estás dentro de la espera de 2 horas, lee *exactamente* cuánto falta y programa
+  el **primer voto para el momento en que termine** (+90 segundos de margen).
+- Después vota solo **cada ~2 horas** (2h más 90 segundos de margen, para no caer
+  un pelín antes de tiempo y perder un ciclo).
+- **Nunca vota dos veces**: si una ejecución cae mientras todavía esperas,
+  simplemente no hace nada y la siguiente lo recupera.
+- ¿Quieres votar *ahora mismo*? Usa **`2-TEST-vote-now.bat`** — vota al instante
+  y reajusta el siguiente voto automático a ~2 horas después.
+- Ejecuta **`STATUS.bat`** cuando quieras para ver el último voto, el próximo y
+  el registro.
+
+---
+
 ## Ten en cuenta
 - **Deja el PC encendido y con la sesión iniciada.** El voto necesita una
   ventana real, así que una pequeña ventana de Chrome aparecerá unos segundos

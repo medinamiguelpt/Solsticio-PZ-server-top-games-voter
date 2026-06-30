@@ -72,6 +72,25 @@ To turn it off later, double-click **`4-STOP-scheduling.bat`**.
 
 ---
 
+## How the timing works
+
+Top-Games allows one vote per person about **every 2 hours**. The tool handles
+that for you automatically:
+
+- When you run **`3-SCHEDULE-every-2h.bat`**, it **votes right away if you're
+  allowed**. If you're still inside the 2-hour wait, it reads *exactly* how much
+  time is left and schedules the **first vote for the moment the wait ends**
+  (+90 seconds of safety margin).
+- After that it votes by itself **about every 2 hours** (2h plus a 90-second
+  margin, so it never lands a hair too early and wastes a cycle).
+- It can **never double-vote**: if a run happens while you're still waiting, it
+  just does nothing, and the next one picks it up.
+- Want a vote *right now*? Use **`2-TEST-vote-now.bat`** — it votes immediately
+  and re-times the next automatic one to ~2 hours later.
+- Run **`STATUS.bat`** anytime to see the last vote, the next one, and the log.
+
+---
+
 ## Keep these in mind
 - **Leave your PC on and logged in.** The vote needs a real window, so a small
   Chrome window will flash for a few seconds every 2 hours — that’s normal, just
