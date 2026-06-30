@@ -40,7 +40,8 @@ Chrome window — so your vote counts just like clicking by hand.
   shows up in the **`top-votos`** channel on the Discord server, and **Save**
   (Ctrl+S).
 
-### Step 5 — Test it once
+### Step 5 — Test it once (Optional)
+- **This step is optional**: you can skip it and go straight to Step 6.
 - Double-click **`2-TEST-vote-now.bat`**.
 - A Chrome window pops up for a few seconds and votes. When it says
   **“Vote CONFIRMED”**, it works! 🎉

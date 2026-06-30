@@ -40,7 +40,8 @@ igual que si hicieras clic a mano.
   juego**, para que aparezca en el canal **`top-votos`** del servidor de Discord,
   y **guarda** (Ctrl+S).
 
-### Paso 5 — Pruébalo una vez
+### Paso 5 — Pruébalo una vez (Opcional)
+- **Este paso es opcional**: puedes saltarlo e ir directo al Paso 6.
 - Haz doble clic en **`2-TEST-vote-now.bat`**.
 - Se abre una ventana de Chrome unos segundos y vota. Cuando diga
   **“Voto CONFIRMADO”**, ¡funciona! 🎉
