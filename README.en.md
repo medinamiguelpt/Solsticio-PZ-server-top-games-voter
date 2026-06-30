@@ -36,7 +36,8 @@ Chrome window — so your vote counts just like clicking by hand.
 
 ### Step 4 — Put your name
 - Open **`username.txt`** (double-click → opens in Notepad).
-- Replace `YOUR_USERNAME_HERE` with **your top-games username**, and **Save**
+- Replace `YOUR_USERNAME_HERE` with **your Discord or in-game username**, so it
+  shows up in the **`top-votos`** channel on the Discord server, and **Save**
   (Ctrl+S).
 
 ### Step 5 — Test it once
@@ -45,14 +46,21 @@ Chrome window — so your vote counts just like clicking by hand.
   **“Vote CONFIRMED”**, it works! 🎉
   *(If it says “On cooldown”, you already voted in the last 2 hours — that’s
   normal, try later.)*
+  **Note:** running `2-TEST-vote-now.bat` does **not** turn on automatic voting —
+  for that you still need to run `3-SCHEDULE-every-2h.bat` (Step 6).
 
 ### Step 6 — Turn on automatic voting
 - Double-click **`3-SCHEDULE-every-2h.bat`**.
-- If you can vote, it **votes instantly**; if you're on cooldown, it schedules
-  the **first vote for right when the cooldown ends**. Then every ~2 hours by itself.
-- (It opens Chrome for a few seconds to do this — that's normal.)
+- If you can already vote, **the system votes automatically**; otherwise, if
+  you're on cooldown, **the system schedules the first vote** according to the
+  remaining wait time. After that it votes by itself **every 2 hours, 1 minute and
+  30 seconds** (the extra minute and 30 seconds are a safety margin, to avoid
+  errors from network or computer/browser lag).
+- (The system opens Chrome for a few seconds to do this — that's normal.)
 
-To turn it off later, double-click **`4-STOP-scheduling.bat`**.
+To turn it off later, double-click **`4-STOP-scheduling.bat`** and the
+automatic-voting script will be **completely uninstalled**; just delete the folder
+where it lives if you want to remove it entirely.
 
 ---
 
@@ -60,7 +68,7 @@ To turn it off later, double-click **`4-STOP-scheduling.bat`**.
 
 | Button | What it does |
 |---|---|
-| **`2-TEST-vote-now.bat`** | Votes **right now**. Says *Vote CONFIRMED* (and resets the timer to ~2h2m) or *On cooldown* with a link to see how much time is left. |
+| **`2-TEST-vote-now.bat`** | Votes **right now**. Says *Vote CONFIRMED* (and resets the timer to ~2h) or *On cooldown* with a link to see how much time is left. |
 | **`PAUSE.bat`** | Pauses automatic voting (without deleting it). |
 | **`RESUME.bat`** | Resumes automatic voting and shows the next run time. |
 | **`STATUS.bat`** | Shows if it's active, last/next run, and the log. |

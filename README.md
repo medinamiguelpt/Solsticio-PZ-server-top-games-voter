@@ -36,8 +36,9 @@ igual que si hicieras clic a mano.
 
 ### Paso 4 — Pon tu nombre
 - Abre **`username.txt`** (doble clic → se abre en el Bloc de notas).
-- Reemplaza `YOUR_USERNAME_HERE` por **tu nombre de usuario de top-games** y
-  **guarda** (Ctrl+S).
+- Reemplaza `YOUR_USERNAME_HERE` por **tu nombre de usuario de Discord o del
+  juego**, para que aparezca en el canal **`top-votos`** del servidor de Discord,
+  y **guarda** (Ctrl+S).
 
 ### Paso 5 — Pruébalo una vez
 - Haz doble clic en **`2-TEST-vote-now.bat`**.
@@ -45,14 +46,22 @@ igual que si hicieras clic a mano.
   **“Voto CONFIRMADO”**, ¡funciona! 🎉
   *(Si dice “En enfriamiento”, ya votaste en las últimas 2 horas — es normal,
   intenta más tarde.)*
+  **Ojo:** usar `2-TEST-vote-now.bat` **no** activa el voto automático — para eso
+  todavía tienes que ejecutar `3-SCHEDULE-every-2h.bat` (Paso 6).
 
 ### Paso 6 — Activa el voto automático
 - Haz doble clic en **`3-SCHEDULE-every-2h.bat`**.
-- Si puedes votar, **vota al instante**; si estás en enfriamiento, programa el
-  **primer voto para justo cuando termine**. Luego vota solo cada ~2 horas.
-- (Abre Chrome unos segundos para hacerlo — es normal.)
+- Si ya puedes votar, **el sistema votará automáticamente**; de lo contrario, si
+  estás en enfriamiento, **el sistema programará el primer voto** según el tiempo
+  que te quede por esperar. Después vota solo **cada 2 horas, 1 minuto y 30
+  segundos** (el minuto y los 30 segundos extra son por precaución, para evitar
+  errores por lag de red o del computador/navegador).
+- (El sistema abre Chrome unos segundos para hacerlo — es normal.)
 
-Para desactivarlo más adelante, haz doble clic en **`4-STOP-scheduling.bat`**.
+Para desactivarlo más adelante, haz doble clic en **`4-STOP-scheduling.bat`** y el
+script que ejecuta la votación automática quedará **totalmente desinstalado**; solo
+tienes que borrar la carpeta donde está alojado si quieres deshacerte por completo
+de él.
 
 ---
 
@@ -60,7 +69,7 @@ Para desactivarlo más adelante, haz doble clic en **`4-STOP-scheduling.bat`**.
 
 | Botón | Qué hace |
 |---|---|
-| **`2-TEST-vote-now.bat`** | Vota **ahora mismo**. Dice *VOTO CONFIRMADO* (y reinicia el reloj a ~2h2m) o *EN ENFRIAMIENTO* con el enlace para ver cuánto falta. |
+| **`2-TEST-vote-now.bat`** | Vota **ahora mismo**. Dice *VOTO CONFIRMADO* (y reinicia el reloj a ~2h) o *EN ENFRIAMIENTO* con el enlace para ver cuánto falta. |
 | **`PAUSE.bat`** | Pausa el voto automático (sin borrarlo). |
 | **`RESUME.bat`** | Reanuda el voto automático y muestra la próxima vez. |
 | **`STATUS.bat`** | Muestra si está activo, la última/próxima vez y el registro. |
