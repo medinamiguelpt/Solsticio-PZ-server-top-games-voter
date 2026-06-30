@@ -66,5 +66,17 @@ To turn it off later, double-click **`4-STOP-scheduling.bat`**.
 
 ---
 
+## Need help?
+
+If it's not working, we're happy to help — here's how:
+
+- **Open an issue** (the **Issues** tab at the top of this page → **New issue**)
+  and **attach your `vote.log` file**. That file tells us exactly what went
+  wrong, so we can usually fix it fast. *(The log only contains timestamps and
+  status messages — no passwords or personal data.)*
+- **Or message on Discord:** **`michaelizer1`**.
+
+---
+
 *For players of the server only. It simply does the same one-vote-every-2-hours
 you could do by hand, on a timer. MIT licensed.*
