@@ -80,6 +80,11 @@ Si no funciona, con gusto te ayudamos:
   personales.)*
 - **O escríbeme por Discord:** **`michaelizer1`**.
 
+## ⭐ ¿Te gustó?
+
+Si te sirvió, ¡dale una estrella! Pulsa el botón **Star** ⭐ arriba a la derecha
+de esta página. Es gratis, no cuesta nada y nos ayuda un montón. 🙌
+
 ---
 
 *Solo para jugadores del servidor. Simplemente hace el mismo voto de una vez

@@ -80,6 +80,11 @@ If it's not working, we're happy to help:
   personal data.)*
 - **Or message on Discord:** **`michaelizer1`**.
 
+## ⭐ Liked it?
+
+If it helped you, give it a star! Click the **Star** ⭐ button at the top-right
+of this page. It's free, takes a second, and helps a lot. 🙌
+
 ---
 
 *For players of the server only. It simply does the same one-vote-every-2-hours
