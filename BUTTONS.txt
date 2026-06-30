@@ -1,0 +1,39 @@
+==========================================================
+  ESPANOL - que hace cada boton
+==========================================================
+
+1-INSTALL.bat ......... Instala todo y te pregunta el idioma (solo una vez).
+2-TEST-vote-now.bat ... Vota AHORA mismo.
+                        - Si funciona: "VOTO CONFIRMADO" y el reloj se reinicia
+                          (siguiente voto automatico en ~2h2m).
+                        - Si ya votaste: "EN ENFRIAMIENTO" con el enlace para
+                          ver cuanto tiempo falta.
+3-SCHEDULE-every-2h.bat Activa el voto automatico cada 2h2m.
+4-STOP-scheduling.bat . Quita por completo el voto automatico.
+
+PAUSE.bat ............. Pausa el voto automatico (sin borrarlo).
+RESUME.bat ............ Reanuda el voto automatico y muestra la proxima vez.
+STATUS.bat ............ Muestra si esta activo, ultima/proxima vez y el registro.
+
+Recuerda: PC encendido y con sesion iniciada, y la VPN APAGADA.
+Tu nombre se pone en  username.txt
+
+==========================================================
+  ENGLISH - what each button does
+==========================================================
+
+1-INSTALL.bat ......... Installs everything and asks your language (one time).
+2-TEST-vote-now.bat ... Votes RIGHT NOW.
+                        - If it works: "Vote CONFIRMED" and the timer restarts
+                          (next automatic vote in ~2h2m).
+                        - If you already voted: "ON COOLDOWN" with a link to
+                          see how much time is left.
+3-SCHEDULE-every-2h.bat Turns on automatic voting every 2h2m.
+4-STOP-scheduling.bat . Removes the automatic voting completely.
+
+PAUSE.bat ............. Pauses automatic voting (without deleting it).
+RESUME.bat ............ Resumes automatic voting and shows the next run time.
+STATUS.bat ............ Shows if it's active, last/next run, and the log.
+
+Remember: PC on and LOGGED IN, and VPN OFF.
+Your name goes in  username.txt

@@ -54,6 +54,22 @@ To turn it off later, double-click **`4-STOP-scheduling.bat`**.
 
 ---
 
+## Buttons (day-to-day)
+
+| Button | What it does |
+|---|---|
+| **`2-TEST-vote-now.bat`** | Votes **right now**. Says *Vote CONFIRMED* (and resets the timer to ~2h2m) or *On cooldown* with a link to see how much time is left. |
+| **`PAUSE.bat`** | Pauses automatic voting (without deleting it). |
+| **`RESUME.bat`** | Resumes automatic voting and shows the next run time. |
+| **`STATUS.bat`** | Shows if it's active, last/next run, and the log. |
+| **`4-STOP-scheduling.bat`** | Removes automatic voting completely. |
+
+> Pause or stop? **`PAUSE`** turns it off for a while and **`RESUME`** turns it
+> back on. **`4-STOP`** removes it entirely (run `3-SCHEDULE` again to re-add it).
+> There's a quick summary in **`BUTTONS.txt`**.
+
+---
+
 ## Keep these in mind
 - **Leave your PC on and logged in.** The vote needs a real window, so a small
   Chrome window will flash for a few seconds every 2 hours — that’s normal, just

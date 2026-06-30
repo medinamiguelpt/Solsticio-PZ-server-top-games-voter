@@ -54,6 +54,22 @@ Para desactivarlo más adelante, haz doble clic en **`4-STOP-scheduling.bat`**.
 
 ---
 
+## Botones (para el día a día)
+
+| Botón | Qué hace |
+|---|---|
+| **`2-TEST-vote-now.bat`** | Vota **ahora mismo**. Dice *VOTO CONFIRMADO* (y reinicia el reloj a ~2h2m) o *EN ENFRIAMIENTO* con el enlace para ver cuánto falta. |
+| **`PAUSE.bat`** | Pausa el voto automático (sin borrarlo). |
+| **`RESUME.bat`** | Reanuda el voto automático y muestra la próxima vez. |
+| **`STATUS.bat`** | Muestra si está activo, la última/próxima vez y el registro. |
+| **`4-STOP-scheduling.bat`** | Quita por completo el voto automático. |
+
+> ¿Pausar o detener? **`PAUSE`** lo apaga un rato y **`RESUME`** lo vuelve a
+> encender. **`4-STOP`** lo borra del todo (tendrías que usar `3-SCHEDULE` otra
+> vez). Hay un resumen rápido en **`BUTTONS.txt`**.
+
+---
+
 ## Ten en cuenta
 - **Deja el PC encendido y con la sesión iniciada.** El voto necesita una
   ventana real, así que una pequeña ventana de Chrome aparecerá unos segundos
