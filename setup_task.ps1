@@ -1,5 +1,6 @@
+param([string]$lang = "es")
 # Registers a Windows Scheduled Task that runs the voter every 2h 2m.
-# Right-click this file -> "Run with PowerShell"  (or run it in a terminal).
+# Usually launched by 3-SCHEDULE-every-2h.bat, but you can run it directly too.
 
 $ErrorActionPreference = "Stop"
 $dir = $PSScriptRoot
@@ -16,10 +17,10 @@ if (-not $pyw) {
         if (Test-Path $cand) { $pyw = $cand } else { $pyw = $py.Source }
     }
 }
-if (-not $pyw) { throw "Python not found on PATH. Install Python first." }
-
-Write-Host "Using interpreter: $pyw"
-Write-Host "Script folder    : $dir"
+if (-not $pyw) {
+    if ($lang -eq "en") { throw "Python not found on PATH. Install Python first." }
+    else { throw "No se encontro Python. Instala Python primero." }
+}
 
 $action  = New-ScheduledTaskAction -Execute $pyw -Argument "vote.py" -WorkingDirectory $dir
 $trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(2)) `
@@ -35,11 +36,20 @@ Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger `
     -Settings $settings -Principal $principal `
     -Description "Votes for the Solsticio PZ server on top-games.net every 2h2m (nodriver/Turnstile). Idempotent: skips when on cooldown." -Force | Out-Null
 
+$next = (Get-ScheduledTaskInfo -TaskName $taskName).NextRunTime
 Write-Host ""
-Write-Host "DONE. Task '$taskName' created. Next run:" (Get-ScheduledTaskInfo -TaskName $taskName).NextRunTime
-Write-Host ""
-Write-Host "IMPORTANT:"
-Write-Host "  - Stay LOGGED IN to Windows (the captcha needs a visible window)."
-Write-Host "  - Keep the VPN OFF (vote on your normal home IP)."
-Write-Host "  - A Chrome window flashes for ~8-10s each run; that's normal."
-Write-Host "  - Check progress: Get-Content `"$dir\vote.log`" -Tail 20"
+if ($lang -eq "en") {
+    Write-Host "DONE. It will vote automatically every 2 hours. Next run: $next"
+    Write-Host ""
+    Write-Host "IMPORTANT:"
+    Write-Host "  - Stay LOGGED IN to Windows (the captcha needs a visible window)."
+    Write-Host "  - Keep the VPN OFF (vote on your normal home connection)."
+    Write-Host "  - A Chrome window flashes for ~8-10s each run; that's normal."
+} else {
+    Write-Host "LISTO. Votara automaticamente cada 2 horas. Proxima vez: $next"
+    Write-Host ""
+    Write-Host "IMPORTANTE:"
+    Write-Host "  - Manten la sesion de Windows INICIADA (la verificacion necesita ventana visible)."
+    Write-Host "  - Manten la VPN APAGADA (vota con tu conexion normal de casa)."
+    Write-Host "  - Una ventana de Chrome aparece ~8-10s en cada voto; es normal."
+}
