@@ -11,6 +11,9 @@ Turnstile) que normalmente bloquea a los robots. Esta herramienta la pasa de
 forma honesta — usando una ventana real de Chrome — así que tu voto cuenta
 igual que si hicieras clic a mano.
 
+**Qué necesitas:** Windows 10 u 11 · **Google Chrome (o Brave) instalado** ·
+conexión a internet. Nada más.
+
 ---
 
 ## Cómo configurarlo (unos 5 minutos, sin programar)
@@ -109,8 +112,12 @@ herramienta lo gestiona sola:
   verificación.
 
 ## ¿Algo salió mal?
-- **Dice que no encuentra Python** → te saltaste la casilla “Add Python to PATH”
-  en el Paso 1. Vuelve a ejecutar el instalador de Python (Modify) y márcala.
+- **Dice que no encuentra Python** (o se abre la Microsoft Store) → Python no
+  está configurado. Solución fácil: vuelve a ejecutar el instalador de Python,
+  elige **Modify**, y marca **“Add Python to PATH”** (y el **py launcher**). Si la
+  Store se sigue abriendo, desactiva el alias: **Configuración de Windows →
+  Aplicaciones → Configuración avanzada de aplicaciones → Alias de ejecución de
+  aplicaciones →** apaga `python.exe` y `python3.exe`.
 - **La prueba dice exit code 2** → asegúrate de que la VPN está apagada y prueba
   de nuevo un poco más tarde.
 - Todo lo que pasa se guarda en **`vote.log`** — ábrelo para ver el historial.

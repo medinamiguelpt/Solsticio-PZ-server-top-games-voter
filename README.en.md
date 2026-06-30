@@ -10,6 +10,9 @@ The vote page has a "Verify you are human" check (Cloudflare Turnstile) that
 normally blocks robots. This tool gets past it the honest way — by using a real
 Chrome window — so your vote counts just like clicking by hand.
 
+**What you need:** Windows 10 or 11 · **Google Chrome (or Brave) installed** ·
+an internet connection. That's it.
+
 ---
 
 ## How to set it up (about 5 minutes, no coding)
@@ -107,8 +110,11 @@ that for you automatically:
 - **Keep any VPN turned OFF.** Voting through a VPN makes the human-check fail.
 
 ## Something went wrong?
-- **It says it can’t find Python** → you missed the “Add Python to PATH” box in
-  Step 1. Re-run the Python installer (Modify) and tick it.
+- **It says it can’t find Python** (or the Microsoft Store opens) → Python isn’t
+  set up. Easy fix: re-run the Python installer, choose **Modify**, and make sure
+  **“Add Python to PATH”** (and the **py launcher**) is ticked. If the Store keeps
+  opening, turn off the alias: Windows **Settings → Apps → Advanced app settings →
+  App execution aliases →** turn OFF `python.exe` and `python3.exe`.
 - **The test says exit code 2** → make sure the VPN is off, then try again a bit
   later.
 - Everything that happens is written to **`vote.log`** — open it to see the

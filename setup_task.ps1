@@ -10,14 +10,16 @@ $taskName = "Solsticio PZ Voter"
 # (...\WindowsApps\pythonw.exe), which does NOT run reliably under Task
 # Scheduler. sys.executable always points at the real install.
 $pyexe = $null
-try { $pyexe = (& python -c "import sys; print(sys.executable)" 2>$null) } catch {}
+# Prefer the py launcher (works even without the PATH box; no Store stub).
+try { $pyexe = (& py -3 -c "import sys; print(sys.executable)" 2>$null) } catch {}
+if (-not $pyexe) { try { $pyexe = (& python -c "import sys; print(sys.executable)" 2>$null) } catch {} }
 if (-not $pyexe) {
     $c = Get-Command python.exe -ErrorAction SilentlyContinue
     if ($c) { $pyexe = $c.Source }
 }
 if (-not $pyexe) {
-    if ($lang -eq "en") { throw "Python not found on PATH. Install Python first." }
-    else { throw "No se encontro Python. Instala Python primero." }
+    if ($lang -eq "en") { throw "Python not found. Install it from python.org and tick 'Add Python to PATH'." }
+    else { throw "No se encontro Python. Instalalo desde python.org y marca 'Add Python to PATH'." }
 }
 $pyw = Join-Path (Split-Path $pyexe) "pythonw.exe"
 if (-not (Test-Path $pyw)) { $pyw = $pyexe }   # fall back to console python
