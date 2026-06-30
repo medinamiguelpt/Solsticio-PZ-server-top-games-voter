@@ -31,6 +31,11 @@ switch ($rc) {
         Write-Host (L "  Mira cuanto tiempo falta en esta pagina:" `
                       "  See exactly how much time is left on this page:")
         Write-Host "  $url"
+        Write-Host ""
+        Write-Host (L "  Para activar el voto automatico, ejecuta 3-SCHEDULE-every-2h.bat:" `
+                      "  To turn on automatic voting, run 3-SCHEDULE-every-2h.bat:")
+        Write-Host (L "  votara solo en cuanto termine el enfriamiento, y luego cada 2h2m." `
+                      "  it votes by itself as soon as the cooldown ends, then every 2h2m.")
     }
     2 {
         Write-Host (L "  No paso la verificacion. Apaga la VPN e intenta de nuevo mas tarde." `

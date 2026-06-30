@@ -22,8 +22,21 @@ if (-not $pyexe) {
 $pyw = Join-Path (Split-Path $pyexe) "pythonw.exe"
 if (-not (Test-Path $pyw)) { $pyw = $pyexe }   # fall back to console python
 
+# Probe the current cooldown so the FIRST vote lands as soon as it ends,
+# instead of waiting for the next 2h2m slot. Falls back to 2 minutes.
+$first = (Get-Date).AddMinutes(2)
+if ($lang -eq "en") { Write-Host "Checking when you can vote next (a Chrome window opens briefly)..." }
+else { Write-Host "Comprobando cuando podras votar (se abrira Chrome un momento)..." }
+try {
+    $probeOut = & $pyexe (Join-Path $dir "vote.py") "--probe" 2>$null
+    $m = [regex]::Match((@($probeOut) -join "`n"), 'COOLDOWN_SECONDS=(\d+)')
+    if ($m.Success -and [int]$m.Groups[1].Value -gt 0) {
+        $first = (Get-Date).AddSeconds([int]$m.Groups[1].Value + 90)
+    }
+} catch {}
+
 $action  = New-ScheduledTaskAction -Execute $pyw -Argument "vote.py" -WorkingDirectory $dir
-$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(2)) `
+$trigger = New-ScheduledTaskTrigger -Once -At $first `
             -RepetitionInterval (New-TimeSpan -Hours 2 -Minutes 2) `
             -RepetitionDuration (New-TimeSpan -Days 3650)
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `

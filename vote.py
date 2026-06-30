@@ -17,6 +17,7 @@ import datetime
 import json
 import os
 import pathlib
+import re
 import sys
 
 import nodriver as uc
@@ -104,6 +105,21 @@ async def is_on_cooldown(tab) -> bool:
         "/antes de que puedas votar de nuevo|Por favor, espera|"
         "Debes ser paciente/i.test(document.body.innerText)"
     )
+
+
+async def get_cooldown_seconds(tab) -> int:
+    """Parse the remaining cooldown (e.g. '105m 3s' or '1h 45m') into seconds.
+    Returns 0 if it can't be read."""
+    raw = await tab.evaluate(
+        "(function(){var m=document.body.innerText.match("
+        "/esperar\\s+([0-9hms\\s]+?)\\s+antes de que puedas votar/i);"
+        "return m?m[1].trim():'';})()"
+    )
+    total = 0
+    for val, unit in re.findall(r"(\d+)\s*([hms])", (raw or "").lower()):
+        v = int(val)
+        total += v * 3600 if unit == "h" else v * 60 if unit == "m" else v
+    return total
 
 
 async def set_username(tab, name: str) -> str:
@@ -280,11 +296,45 @@ async def run() -> int:
         log("=== run end ===\n")
 
 
-def main() -> int:
+async def probe() -> int:
+    """Load the page and print 'COOLDOWN_SECONDS=N' (remaining cooldown, 0 if
+    votable now). Used by setup_task.ps1 to align the first scheduled vote to
+    the moment the cooldown ends. Does NOT vote."""
+    PROFILE_DIR.mkdir(exist_ok=True)
+    start_kwargs = dict(
+        user_data_dir=str(PROFILE_DIR),
+        headless=False,
+        browser_args=["--window-size=900,1000"],
+    )
+    if CHROME:
+        start_kwargs["browser_executable_path"] = CHROME
+    secs = 0
+    browser = await uc.start(**start_kwargs)
     try:
+        tab = await browser.get(VOTE_URL)
+        await tab.sleep(3)
+        await dismiss_consent(tab)
+        if await is_on_cooldown(tab):
+            secs = await get_cooldown_seconds(tab)
+    finally:
+        try:
+            browser.stop()
+        except Exception:
+            pass
+    print(f"COOLDOWN_SECONDS={secs}")
+    return 0
+
+
+def main() -> int:
+    probing = "--probe" in sys.argv
+    try:
+        if probing:
+            return uc.loop().run_until_complete(probe())
         return uc.loop().run_until_complete(run())
     except Exception as e:
         log(f"FATAL: {e!r}")
+        if probing:               # let the caller proceed with a safe default
+            print("COOLDOWN_SECONDS=0")
         return 3
 
 

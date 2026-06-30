@@ -48,7 +48,8 @@ igual que si hicieras clic a mano.
 
 ### Paso 6 — Activa el voto automático
 - Haz doble clic en **`3-SCHEDULE-every-2h.bat`**.
-- Ya está — ahora vota cada 2 horas solo.
+- Abrirá Chrome un momento para ver cuándo termina tu enfriamiento, así el
+  **primer voto se hace justo cuando puedas** (y luego cada 2h2m solo).
 
 Para desactivarlo más adelante, haz doble clic en **`4-STOP-scheduling.bat`**.
 
