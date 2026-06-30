@@ -30,7 +30,7 @@ an internet connection. That's it.
   like your Documents.
 
 ### Step 3 — Install it (and pick your language)
-- Double-click **`1-INSTALL.bat`**.
+- Double-click **`INSTALL.bat`**.
 - It first asks **[S] Spanish / [E] English** — press your choice. From then on
   every window speaks your language.
 - It installs everything and says *Done*. Close it.
@@ -45,16 +45,16 @@ an internet connection. That's it.
 
 ### Step 5 — Test it once (Optional)
 - **This step is optional**: you can skip it and go straight to Step 6.
-- Double-click **`2-TEST-vote-now.bat`**.
+- Double-click **`TEST-vote-now.bat`**.
 - A Chrome window pops up for a few seconds and votes. When it says
   **“Vote CONFIRMED”**, it works! 🎉
   *(If it says “On cooldown”, you already voted in the last 2 hours — that’s
   normal, try later.)*
-  **Note:** running `2-TEST-vote-now.bat` does **not** turn on automatic voting —
-  for that you still need to run `3-SCHEDULE-every-2h.bat` (Step 6).
+  **Note:** running `TEST-vote-now.bat` does **not** turn on automatic voting —
+  for that you still need to run `SCHEDULE-every-2h.bat` (Step 6).
 
 ### Step 6 — Turn on automatic voting
-- Double-click **`3-SCHEDULE-every-2h.bat`**.
+- Double-click **`SCHEDULE-every-2h.bat`**.
 - If you can already vote, **the system votes automatically**; otherwise, if
   you're on cooldown, **the system schedules the first vote** according to the
   remaining wait time. After that it votes by itself **every 2 hours, 1 minute and
@@ -62,7 +62,7 @@ an internet connection. That's it.
   errors from network or computer/browser lag).
 - (The system opens Chrome for a few seconds to do this — that's normal.)
 
-To turn it off later, double-click **`4-STOP-scheduling.bat`** and the
+To turn it off later, double-click **`STOP-scheduling.bat`** and the
 automatic-voting script will be **completely uninstalled**; just delete the folder
 where it lives if you want to remove it entirely.
 
@@ -72,14 +72,14 @@ where it lives if you want to remove it entirely.
 
 | Button | What it does |
 |---|---|
-| **`2-TEST-vote-now.bat`** | Votes **right now**. Says *Vote CONFIRMED* (and resets the timer to ~2h) or *On cooldown* with a link to see how much time is left. |
+| **`TEST-vote-now.bat`** | Votes **right now**. Says *Vote CONFIRMED* (and resets the timer to ~2h) or *On cooldown* with a link to see how much time is left. |
 | **`PAUSE.bat`** | Pauses automatic voting (without deleting it). |
 | **`RESUME.bat`** | Resumes automatic voting and shows the next run time. |
 | **`STATUS.bat`** | Shows if it's active, last/next run, and the log. |
-| **`4-STOP-scheduling.bat`** | Removes automatic voting completely. |
+| **`STOP-scheduling.bat`** | Removes automatic voting completely. |
 
 > Pause or stop? **`PAUSE`** turns it off for a while and **`RESUME`** turns it
-> back on. **`4-STOP`** removes it entirely (run `3-SCHEDULE` again to re-add it).
+> back on. **`STOP`** removes it entirely (run `SCHEDULE` again to re-add it).
 > There's a quick summary in **`BUTTONS.txt`**.
 
 ---
@@ -89,7 +89,7 @@ where it lives if you want to remove it entirely.
 Top-Games allows one vote per person about **every 2 hours**. The tool handles
 that for you automatically:
 
-- When you run **`3-SCHEDULE-every-2h.bat`**, it **votes right away if you're
+- When you run **`SCHEDULE-every-2h.bat`**, it **votes right away if you're
   allowed**. If you're still inside the 2-hour wait, it reads *exactly* how much
   time is left and schedules the **first vote for the moment the wait ends**
   (+90 seconds of safety margin).
@@ -97,7 +97,7 @@ that for you automatically:
   margin, so it never lands a hair too early and wastes a cycle).
 - It can **never double-vote**: if a run happens while you're still waiting, it
   just does nothing, and the next one picks it up.
-- Want a vote *right now*? Use **`2-TEST-vote-now.bat`** — it votes immediately
+- Want a vote *right now*? Use **`TEST-vote-now.bat`** — it votes immediately
   and re-times the next automatic one to ~2 hours later.
 - Run **`STATUS.bat`** anytime to see the last vote, the next one, and the log.
 

@@ -21,8 +21,8 @@ switch ($rc) {
                           "  Vote CONFIRMED! You'll vote again automatically in ~2 hours.")
             Write-Host (L "  (proxima vez automatica: $next)" "  (next automatic vote: $next)")
         } else {
-            Write-Host (L "  VOTO CONFIRMADO! Ahora abre 3-SCHEDULE-every-2h.bat para votar automaticamente." `
-                          "  Vote CONFIRMED! Now run 3-SCHEDULE-every-2h.bat to vote automatically.")
+            Write-Host (L "  VOTO CONFIRMADO! Ahora abre SCHEDULE-every-2h.bat para votar automaticamente." `
+                          "  Vote CONFIRMED! Now run SCHEDULE-every-2h.bat to vote automatically.")
         }
     }
     1 {
@@ -32,8 +32,8 @@ switch ($rc) {
                       "  See exactly how much time is left on this page:")
         Write-Host "  $url"
         Write-Host ""
-        Write-Host (L "  Para activar el voto automatico, ejecuta 3-SCHEDULE-every-2h.bat:" `
-                      "  To turn on automatic voting, run 3-SCHEDULE-every-2h.bat:")
+        Write-Host (L "  Para activar el voto automatico, ejecuta SCHEDULE-every-2h.bat:" `
+                      "  To turn on automatic voting, run SCHEDULE-every-2h.bat:")
         Write-Host (L "  votara solo en cuanto termine el enfriamiento, y luego cada ~2 horas." `
                       "  it votes by itself as soon as the cooldown ends, then every ~2 hours.")
     }

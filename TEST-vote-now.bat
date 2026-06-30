@@ -4,7 +4,7 @@ if not exist lang.txt (>lang.txt echo es)
 set /p LANG=<lang.txt
 call "%~dp0_py.bat"
 if not defined PYCMD (
-  if "%LANG%"=="en" (echo Python not found. Run 1-INSTALL.bat first.) else (echo No se encontro Python. Ejecuta 1-INSTALL.bat primero.)
+  if "%LANG%"=="en" (echo Python not found. Run INSTALL.bat first.) else (echo No se encontro Python. Ejecuta INSTALL.bat primero.)
   echo.
   pause
   goto :eof

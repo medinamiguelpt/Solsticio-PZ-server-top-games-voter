@@ -1,6 +1,6 @@
 param([string]$lang = "es")
 # Registers a Windows Scheduled Task that runs the voter every 2h 2m.
-# Usually launched by 3-SCHEDULE-every-2h.bat, but you can run it directly too.
+# Usually launched by SCHEDULE-every-2h.bat, but you can run it directly too.
 
 $ErrorActionPreference = "Stop"
 $dir = $PSScriptRoot

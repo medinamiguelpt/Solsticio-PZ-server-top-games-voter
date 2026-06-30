@@ -30,7 +30,7 @@ conexión a internet. Nada más.
   por ejemplo en Documentos.
 
 ### Paso 3 — Instálala (y elige tu idioma)
-- Haz doble clic en **`1-INSTALL.bat`**.
+- Haz doble clic en **`INSTALL.bat`**.
 - Primero te pregunta **[S] Español / [E] English** — pulsa tu opción. A partir
   de ahí todas las ventanas estarán en tu idioma.
 - Instala todo y dice *Listo*. Ciérrala.
@@ -45,16 +45,16 @@ conexión a internet. Nada más.
 
 ### Paso 5 — Pruébalo una vez (Opcional)
 - **Este paso es opcional**: puedes saltarlo e ir directo al Paso 6.
-- Haz doble clic en **`2-TEST-vote-now.bat`**.
+- Haz doble clic en **`TEST-vote-now.bat`**.
 - Se abre una ventana de Chrome unos segundos y vota. Cuando diga
   **“Voto CONFIRMADO”**, ¡funciona! 🎉
   *(Si dice “En enfriamiento”, ya votaste en las últimas 2 horas — es normal,
   intenta más tarde.)*
-  **Ojo:** usar `2-TEST-vote-now.bat` **no** activa el voto automático — para eso
-  todavía tienes que ejecutar `3-SCHEDULE-every-2h.bat` (Paso 6).
+  **Ojo:** usar `TEST-vote-now.bat` **no** activa el voto automático — para eso
+  todavía tienes que ejecutar `SCHEDULE-every-2h.bat` (Paso 6).
 
 ### Paso 6 — Activa el voto automático
-- Haz doble clic en **`3-SCHEDULE-every-2h.bat`**.
+- Haz doble clic en **`SCHEDULE-every-2h.bat`**.
 - Si ya puedes votar, **el sistema votará automáticamente**; de lo contrario, si
   estás en enfriamiento, **el sistema programará el primer voto** según el tiempo
   que te quede por esperar. Después vota solo **cada 2 horas, 1 minuto y 30
@@ -62,7 +62,7 @@ conexión a internet. Nada más.
   errores por lag de red o del computador/navegador).
 - (El sistema abre Chrome unos segundos para hacerlo — es normal.)
 
-Para desactivarlo más adelante, haz doble clic en **`4-STOP-scheduling.bat`** y el
+Para desactivarlo más adelante, haz doble clic en **`STOP-scheduling.bat`** y el
 script que ejecuta la votación automática quedará **totalmente desinstalado**; solo
 tienes que borrar la carpeta donde está alojado si quieres deshacerte por completo
 de él.
@@ -73,14 +73,14 @@ de él.
 
 | Botón | Qué hace |
 |---|---|
-| **`2-TEST-vote-now.bat`** | Vota **ahora mismo**. Dice *VOTO CONFIRMADO* (y reinicia el reloj a ~2h) o *EN ENFRIAMIENTO* con el enlace para ver cuánto falta. |
+| **`TEST-vote-now.bat`** | Vota **ahora mismo**. Dice *VOTO CONFIRMADO* (y reinicia el reloj a ~2h) o *EN ENFRIAMIENTO* con el enlace para ver cuánto falta. |
 | **`PAUSE.bat`** | Pausa el voto automático (sin borrarlo). |
 | **`RESUME.bat`** | Reanuda el voto automático y muestra la próxima vez. |
 | **`STATUS.bat`** | Muestra si está activo, la última/próxima vez y el registro. |
-| **`4-STOP-scheduling.bat`** | Quita por completo el voto automático. |
+| **`STOP-scheduling.bat`** | Quita por completo el voto automático. |
 
 > ¿Pausar o detener? **`PAUSE`** lo apaga un rato y **`RESUME`** lo vuelve a
-> encender. **`4-STOP`** lo borra del todo (tendrías que usar `3-SCHEDULE` otra
+> encender. **`STOP`** lo borra del todo (tendrías que usar `SCHEDULE` otra
 > vez). Hay un resumen rápido en **`BUTTONS.txt`**.
 
 ---
@@ -90,14 +90,14 @@ de él.
 Top-Games permite un voto por persona aproximadamente **cada 2 horas**. La
 herramienta lo gestiona sola:
 
-- Al ejecutar **`3-SCHEDULE-every-2h.bat`**, **vota enseguida si puedes**. Si aún
+- Al ejecutar **`SCHEDULE-every-2h.bat`**, **vota enseguida si puedes**. Si aún
   estás dentro de la espera de 2 horas, lee *exactamente* cuánto falta y programa
   el **primer voto para el momento en que termine** (+90 segundos de margen).
 - Después vota solo **cada ~2 horas** (2h más 90 segundos de margen, para no caer
   un pelín antes de tiempo y perder un ciclo).
 - **Nunca vota dos veces**: si una ejecución cae mientras todavía esperas,
   simplemente no hace nada y la siguiente lo recupera.
-- ¿Quieres votar *ahora mismo*? Usa **`2-TEST-vote-now.bat`** — vota al instante
+- ¿Quieres votar *ahora mismo*? Usa **`TEST-vote-now.bat`** — vota al instante
   y reajusta el siguiente voto automático a ~2 horas después.
 - Ejecuta **`STATUS.bat`** cuando quieras para ver el último voto, el próximo y
   el registro.

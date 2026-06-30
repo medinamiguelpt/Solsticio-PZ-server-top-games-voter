@@ -48,7 +48,7 @@ echo.
 echo.
 echo ============================================================
 echo  Listo! Ahora abre "username.txt", escribe tu nombre, guarda.
-echo  Despues haz doble clic en "3-SCHEDULE-every-2h.bat".
+echo  Despues haz doble clic en "SCHEDULE-every-2h.bat".
 echo ============================================================
 pause
 goto END
@@ -63,7 +63,7 @@ echo.
 echo.
 echo ============================================================
 echo  Done! Now open "username.txt", type your name, save it.
-echo  Then double-click "3-SCHEDULE-every-2h.bat".
+echo  Then double-click "SCHEDULE-every-2h.bat".
 echo ============================================================
 pause
 goto END
