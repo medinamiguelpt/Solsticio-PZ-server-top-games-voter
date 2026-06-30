@@ -238,7 +238,9 @@ async def run() -> int:
         await dismiss_consent(tab)
 
         if await is_on_cooldown(tab):
-            log("On cooldown -> nothing to do.")
+            secs = await get_cooldown_seconds(tab)
+            log(f"On cooldown ({secs}s left) -> nothing to do.")
+            print(f"COOLDOWN_SECONDS={secs}")   # used by setup_task.ps1
             return 1
 
         # Wait for the form to be submit-ready (token copied + button enabled).
@@ -296,45 +298,11 @@ async def run() -> int:
         log("=== run end ===\n")
 
 
-async def probe() -> int:
-    """Load the page and print 'COOLDOWN_SECONDS=N' (remaining cooldown, 0 if
-    votable now). Used by setup_task.ps1 to align the first scheduled vote to
-    the moment the cooldown ends. Does NOT vote."""
-    PROFILE_DIR.mkdir(exist_ok=True)
-    start_kwargs = dict(
-        user_data_dir=str(PROFILE_DIR),
-        headless=False,
-        browser_args=["--window-size=900,1000"],
-    )
-    if CHROME:
-        start_kwargs["browser_executable_path"] = CHROME
-    secs = 0
-    browser = await uc.start(**start_kwargs)
-    try:
-        tab = await browser.get(VOTE_URL)
-        await tab.sleep(3)
-        await dismiss_consent(tab)
-        if await is_on_cooldown(tab):
-            secs = await get_cooldown_seconds(tab)
-    finally:
-        try:
-            browser.stop()
-        except Exception:
-            pass
-    print(f"COOLDOWN_SECONDS={secs}")
-    return 0
-
-
 def main() -> int:
-    probing = "--probe" in sys.argv
     try:
-        if probing:
-            return uc.loop().run_until_complete(probe())
         return uc.loop().run_until_complete(run())
     except Exception as e:
         log(f"FATAL: {e!r}")
-        if probing:               # let the caller proceed with a safe default
-            print("COOLDOWN_SECONDS=0")
         return 3
 
 

@@ -22,22 +22,33 @@ if (-not $pyexe) {
 $pyw = Join-Path (Split-Path $pyexe) "pythonw.exe"
 if (-not (Test-Path $pyw)) { $pyw = $pyexe }   # fall back to console python
 
-# Probe the current cooldown so the FIRST vote lands as soon as it ends,
-# instead of waiting for the next 2h2m slot. Falls back to 2 minutes.
-$first = (Get-Date).AddMinutes(2)
-if ($lang -eq "en") { Write-Host "Checking when you can vote next (a Chrome window opens briefly)..." }
-else { Write-Host "Comprobando cuando podras votar (se abrira Chrome un momento)..." }
+# Interval between votes: 2h + 90s grace. The cooldown is ~2h; the grace makes
+# sure a run never lands a hair before the server's cooldown has cleared.
+$interval = New-TimeSpan -Hours 2 -Minutes 1 -Seconds 30
+
+# Vote NOW if eligible (truly instant), and use the outcome to time the FIRST
+# automatic run. A Chrome window opens for ~10s.
+if ($lang -eq "en") { Write-Host "Voting now if possible (a Chrome window opens briefly)..." }
+else { Write-Host "Votando ahora si se puede (se abrira Chrome un momento)..." }
+$first = (Get-Date).AddMinutes(2)   # safe fallback
 try {
-    $probeOut = & $pyexe (Join-Path $dir "vote.py") "--probe" 2>$null
-    $m = [regex]::Match((@($probeOut) -join "`n"), 'COOLDOWN_SECONDS=(\d+)')
-    if ($m.Success -and [int]$m.Groups[1].Value -gt 0) {
-        $first = (Get-Date).AddSeconds([int]$m.Groups[1].Value + 90)
+    $out = & $pyexe (Join-Path $dir "vote.py") 2>$null
+    $rc = $LASTEXITCODE
+    if ($rc -eq 0) {
+        # Voted just now -> next automatic run one full interval from now.
+        $first = (Get-Date).Add($interval)
+    } elseif ($rc -eq 1) {
+        # On cooldown -> align the first run to cooldown end + 90s grace.
+        $m = [regex]::Match((@($out) -join "`n"), 'COOLDOWN_SECONDS=(\d+)')
+        if ($m.Success -and [int]$m.Groups[1].Value -gt 0) {
+            $first = (Get-Date).AddSeconds([int]$m.Groups[1].Value + 90)
+        }
     }
 } catch {}
 
 $action  = New-ScheduledTaskAction -Execute $pyw -Argument "vote.py" -WorkingDirectory $dir
 $trigger = New-ScheduledTaskTrigger -Once -At $first `
-            -RepetitionInterval (New-TimeSpan -Hours 2 -Minutes 2) `
+            -RepetitionInterval $interval `
             -RepetitionDuration (New-TimeSpan -Days 3650)
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
             -StartWhenAvailable -MultipleInstances IgnoreNew `

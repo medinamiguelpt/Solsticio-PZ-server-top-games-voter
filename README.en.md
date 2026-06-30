@@ -48,8 +48,9 @@ Chrome window — so your vote counts just like clicking by hand.
 
 ### Step 6 — Turn on automatic voting
 - Double-click **`3-SCHEDULE-every-2h.bat`**.
-- It opens Chrome for a moment to check when your cooldown ends, so the
-  **first vote happens right when you're eligible** (then every 2h2m by itself).
+- If you can vote, it **votes instantly**; if you're on cooldown, it schedules
+  the **first vote for right when the cooldown ends**. Then every ~2 hours by itself.
+- (It opens Chrome for a few seconds to do this — that's normal.)
 
 To turn it off later, double-click **`4-STOP-scheduling.bat`**.
 

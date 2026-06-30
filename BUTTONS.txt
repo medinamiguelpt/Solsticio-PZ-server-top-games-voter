@@ -8,7 +8,8 @@
                           (siguiente voto automatico en ~2h2m).
                         - Si ya votaste: "EN ENFRIAMIENTO" con el enlace para
                           ver cuanto tiempo falta.
-3-SCHEDULE-every-2h.bat Activa el voto automatico cada 2h2m.
+3-SCHEDULE-every-2h.bat Vota ahora si se puede y activa el voto automatico
+                        (luego cada ~2 horas).
 4-STOP-scheduling.bat . Quita por completo el voto automatico.
 
 PAUSE.bat ............. Pausa el voto automatico (sin borrarlo).
@@ -28,7 +29,8 @@ Tu nombre se pone en  username.txt
                           (next automatic vote in ~2h2m).
                         - If you already voted: "ON COOLDOWN" with a link to
                           see how much time is left.
-3-SCHEDULE-every-2h.bat Turns on automatic voting every 2h2m.
+3-SCHEDULE-every-2h.bat Votes now if possible and turns on automatic voting
+                        (then every ~2 hours).
 4-STOP-scheduling.bat . Removes the automatic voting completely.
 
 PAUSE.bat ............. Pauses automatic voting (without deleting it).

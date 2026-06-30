@@ -10,15 +10,15 @@ switch ($rc) {
     0 {
         $exists = Get-ScheduledTask -TaskName $task -ErrorAction SilentlyContinue
         if ($exists) {
-            $at  = (Get-Date).AddHours(2).AddMinutes(2)
+            $at  = (Get-Date).AddHours(2).AddMinutes(1).AddSeconds(30)
             $trg = New-ScheduledTaskTrigger -Once -At $at `
-                     -RepetitionInterval (New-TimeSpan -Hours 2 -Minutes 2) `
+                     -RepetitionInterval (New-TimeSpan -Hours 2 -Minutes 1 -Seconds 30) `
                      -RepetitionDuration (New-TimeSpan -Days 3650)
             Set-ScheduledTask -TaskName $task -Trigger $trg | Out-Null
             Enable-ScheduledTask -TaskName $task | Out-Null
             $next = (Get-ScheduledTaskInfo -TaskName $task).NextRunTime
-            Write-Host (L "  VOTO CONFIRMADO! Votaras de nuevo automaticamente en ~2h2m." `
-                          "  Vote CONFIRMED! You'll vote again automatically in ~2h2m.")
+            Write-Host (L "  VOTO CONFIRMADO! Votaras de nuevo automaticamente en ~2 horas." `
+                          "  Vote CONFIRMED! You'll vote again automatically in ~2 hours.")
             Write-Host (L "  (proxima vez automatica: $next)" "  (next automatic vote: $next)")
         } else {
             Write-Host (L "  VOTO CONFIRMADO! Ahora abre 3-SCHEDULE-every-2h.bat para votar automaticamente." `
@@ -34,8 +34,8 @@ switch ($rc) {
         Write-Host ""
         Write-Host (L "  Para activar el voto automatico, ejecuta 3-SCHEDULE-every-2h.bat:" `
                       "  To turn on automatic voting, run 3-SCHEDULE-every-2h.bat:")
-        Write-Host (L "  votara solo en cuanto termine el enfriamiento, y luego cada 2h2m." `
-                      "  it votes by itself as soon as the cooldown ends, then every 2h2m.")
+        Write-Host (L "  votara solo en cuanto termine el enfriamiento, y luego cada ~2 horas." `
+                      "  it votes by itself as soon as the cooldown ends, then every ~2 hours.")
     }
     2 {
         Write-Host (L "  No paso la verificacion. Apaga la VPN e intenta de nuevo mas tarde." `
