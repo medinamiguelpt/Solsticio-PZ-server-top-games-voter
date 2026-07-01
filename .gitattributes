@@ -1,0 +1,6 @@
+# Windows scripts MUST keep CRLF line endings, or cmd.exe/PowerShell mis-parse
+# them (labels/goto silently fail). Marked -text so the exact CRLF bytes are
+# stored in the repo and served verbatim in the GitHub "Download ZIP".
+*.bat  -text
+*.ps1  -text
+*.txt  -text
