@@ -109,17 +109,50 @@ async def is_on_cooldown(tab) -> bool:
 
 async def get_cooldown_seconds(tab) -> int:
     """Parse the remaining cooldown (e.g. '105m 3s' or '1h 45m') into seconds.
+    Retries a few times because the countdown renders a moment after load.
     Returns 0 if it can't be read."""
-    raw = await tab.evaluate(
-        "(function(){var m=document.body.innerText.match("
-        "/esperar\\s+([0-9hms\\s]+?)\\s+antes de que puedas votar/i);"
-        "return m?m[1].trim():'';})()"
-    )
-    total = 0
-    for val, unit in re.findall(r"(\d+)\s*([hms])", (raw or "").lower()):
-        v = int(val)
-        total += v * 3600 if unit == "h" else v * 60 if unit == "m" else v
-    return total
+    for _ in range(5):
+        raw = await tab.evaluate(
+            "(function(){var m=document.body.innerText.match("
+            "/esperar\\s+([0-9hms\\s]+?)\\s+antes de que puedas votar/i);"
+            "return m?m[1].trim():'';})()"
+        )
+        total = 0
+        for val, unit in re.findall(r"(\d+)\s*([hms])", (raw or "").lower()):
+            v = int(val)
+            total += v * 3600 if unit == "h" else v * 60 if unit == "m" else v
+        if total > 0:
+            return total
+        await tab.sleep(1)
+    return 0
+
+
+async def wait_for_page_ready(tab, timeout: int = 45) -> bool:
+    """Wait past the Cloudflare interstitial ('Just a moment...') until the REAL
+    vote page is loaded — i.e. the form is present OR the cooldown view is shown.
+    nodriver clears the interstitial on its own; we just have to wait for it."""
+    deadline = timeout
+    while deadline > 0:
+        raw = await tab.evaluate(
+            "(function(){"
+            "var t=document.body?document.body.innerText:'';"
+            "var d=(document.title||'')+' '+t;"
+            "var inter=/just a moment|checking your browser|performing security "
+            "verification|un momento|comprobando tu navegador|verificando/i.test(d);"
+            "var form=!!document.querySelector('#btnSubmitVote')||"
+            "!!document.querySelector('#playername');"
+            "var cd=/antes de que puedas votar de nuevo|Debes ser paciente/i.test(t);"
+            "return JSON.stringify({inter:inter, ready:((!inter)&&(form||cd))});})()"
+        )
+        try:
+            st = json.loads(raw)
+        except Exception:
+            st = {}
+        if st.get("ready"):
+            return True
+        await tab.sleep(1.5)
+        deadline -= 1.5
+    return False
 
 
 async def set_username(tab, name: str) -> str:
@@ -233,7 +266,10 @@ async def run() -> int:
     browser = await uc.start(**start_kwargs)
     try:
         tab = await browser.get(VOTE_URL)
-        await tab.sleep(3)
+        await tab.sleep(2)
+        # Get past the Cloudflare interstitial ("Just a moment...") and wait for
+        # the real vote page (form or cooldown view) before doing anything.
+        await wait_for_page_ready(tab)
 
         await dismiss_consent(tab)
 
