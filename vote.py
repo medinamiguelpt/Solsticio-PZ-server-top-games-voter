@@ -127,11 +127,13 @@ async def get_cooldown_seconds(tab) -> int:
     return 0
 
 
-async def wait_for_page_ready(tab, timeout: int = 45) -> bool:
+async def wait_for_page_ready(tab, timeout: int = 60) -> bool:
     """Wait past the Cloudflare interstitial ('Just a moment...') until the REAL
-    vote page is loaded — i.e. the form is present OR the cooldown view is shown.
-    nodriver clears the interstitial on its own; we just have to wait for it."""
+    vote page is loaded (the form is present OR the cooldown view is shown).
+    nodriver usually clears the challenge on its own; if it stalls, we click the
+    Cloudflare checkbox (the interstitial sometimes requires a manual click)."""
     deadline = timeout
+    clicks = 0
     while deadline > 0:
         raw = await tab.evaluate(
             "(function(){"
@@ -139,10 +141,14 @@ async def wait_for_page_ready(tab, timeout: int = 45) -> bool:
             "var d=(document.title||'')+' '+t;"
             "var inter=/just a moment|checking your browser|performing security "
             "verification|un momento|comprobando tu navegador|verificando/i.test(d);"
+            "var cf=!!document.querySelector("
+            "'iframe[src*=\"challenges.cloudflare.com\"]');"
             "var form=!!document.querySelector('#btnSubmitVote')||"
             "!!document.querySelector('#playername');"
-            "var cd=/antes de que puedas votar de nuevo|Debes ser paciente/i.test(t);"
-            "return JSON.stringify({inter:inter, ready:((!inter)&&(form||cd))});})()"
+            "var cd=/antes de que puedas votar de nuevo|Debes ser paciente/i"
+            ".test(t);"
+            "return JSON.stringify({inter:inter, cf:cf,"
+            " ready:((!inter)&&(form||cd))});})()"
         )
         try:
             st = json.loads(raw)
@@ -150,8 +156,14 @@ async def wait_for_page_ready(tab, timeout: int = 45) -> bool:
             st = {}
         if st.get("ready"):
             return True
-        await tab.sleep(1.5)
-        deadline -= 1.5
+        # Give the challenge ~5s to clear on its own; if it's still there,
+        # click the Cloudflare checkbox for it (up to a few tries).
+        stalled = deadline <= timeout - 5
+        if stalled and (st.get("inter") or st.get("cf")) and clicks < 5:
+            await click_turnstile_checkbox(tab)
+            clicks += 1
+        await tab.sleep(2)
+        deadline -= 2
     return False
 
 
@@ -269,7 +281,10 @@ async def run() -> int:
         await tab.sleep(2)
         # Get past the Cloudflare interstitial ("Just a moment...") and wait for
         # the real vote page (form or cooldown view) before doing anything.
-        await wait_for_page_ready(tab)
+        if not await wait_for_page_ready(tab):
+            log("Could not get past the Cloudflare challenge. -> exit 2")
+            await tab.save_screenshot(str(SHOT_FILE))
+            return 2
 
         await dismiss_consent(tab)
 
